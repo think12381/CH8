@@ -1,0 +1,64 @@
+########################################
+spring data
+DB:
+jpa
+mongoDB
+Neo4J
+Redis
+Solr
+Hadoop
+REST
+JDBC
+
+CRUD (Create require update delete 創建 取得 更新 刪除)
+Spring 使用了各自的對口 Repository 提供減少開發
+
+ex CrudRepository JpaRepository MongoRepository
+
+public interface CrudRepository extends Repository
+public interface JpaRepository extends Repository
+
+###########################################
+
+DOCKER 就是容器技術讓程式可以在跨平台上運作 可以將它編成映像檔讓他掛載在各種平台上 核心還是在
+       linux上
+
+linux 下載
+
+windows 下載
+Boot2Docker
+https://github.com/boot2docker/windows-installer/releases/tag/v1.8.0
+
+verify
+C:\Users\davidchang>docker -v
+Docker version 1.8.0, build 0d03096
+
+docker 指令
+
+docker search 鏡像名
+docker search redis
+docker pull 鏡像名
+docker pull redis
+
+docker images
+docker rmi image-id
+docker rmi $(docker images -q)
+
+docker run --name container-name -d image-name
+docker run --name test-redis -d redis
+docker ps (運行查看)
+docker ps -a
+docker stop container-name/container-id
+docker stop test-redis
+docker start container-name/container-id
+docker start test-redis
+
+docker pull wnameless/oracle-xe-l1q
+docker pull mongo
+docker pull redis:2.8.21
+docker pull cloudesire/activemq
+docker pull rabbitmq
+docker pull rabbitmq:3-management
+#################################################
+JPA hibernate 數據訪問技術 利用 object-relational mapping
+JPA java persistence api 是定義O/R的標準規範
