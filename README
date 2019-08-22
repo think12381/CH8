@@ -62,3 +62,155 @@ docker pull rabbitmq:3-management
 #################################################
 JPA hibernate 數據訪問技術 利用 object-relational mapping
 JPA java persistence api 是定義O/R的標準規範
+#################################################
+
+
+1 定義數據訪問層
+public interface PersonRepository extends JpaRepository<Person, Long>
+
+@NoRepositoryBean
+public interface JpaRepository<T, ID externs Serializable> extends PagingAndSortingRepository<T,ID>
+
+繼承之後可以使用了
+
+findAll
+save
+flush
+saveAndFlush
+deleteInBatch
+deleteAllInBatch
+getone
+
+2 設定
+@EnableJpaRepositories
+
+3 定義查詢方法
+public interfacePersonRepository extends JpaRepository<Person,Long>
+
+List<Person> findByName  => select p from Person p where p.name=xx
+List<Person> findByNameLike => select p from Person p where p.name like ?1
+
+@Query("select p from Person p where p.address= ?1")
+
+組合事件
+@Modify
+@Transcational
+@Query("update Person set p.name=?1")
+
+CriteriaBuilder CriteriaQuery Predicate Root
+
+##############################################################################
+
+oracle XE 是一種DB 數據大小是4G
+
+安裝 1 bios 開啟虛擬化技術
+     2 https://www.docker.com/get-started 下載docker toolbox
+     3 windows 10 home不支援 HTYPE-V 安裝法 所以要注意到toolbox版本
+1
+git clone https://github.com/wnameless/docker-oracle-xe-11g.git
+$ cd docker-oracle-xe-11g
+$ docker build -t wnameless/docker-oracle-xe-11g .
+2
+docker pull registry.cn-hangzhou.aliyuncs.com/helowin/oracle_11g
+docker run -d -p 1521:1521 --name oracle_11g registry.aliyuncs.com/helowin/oracle_11g
+docker run -d -p 9090:8080 -p 1521:1521 registry.aliyuncs.com/helowin/oracle_11g
+docker pull jaspeen/oracle-11g
+docker run -d -p 9090:8080 -p 1521:1521 wnameless/docker-oracle-xe-11g
+
+鏡像在這裡 container
+aufs  containers  image  network  plugins  swarm  tmp  trust  volumes
+
+3
+Installation
+docker pull deepdiver/docker-oracle-xe-11g
+Run with 22 and 1521 ports opened:
+
+docker exec -it d37a20dd8a2f /bin/bash
+775c493412ce
+
+4
+docker 的49160 綁定 容器的22端口
+docker run -d -p 9090:8080 -p 1521:1521 deepdiver/docker-oracle-xe-11g
+Connect database with following setting:
+
+hostname: localhost
+port: 49161
+sid: xe
+username: system
+password: oracle
+Password for SYS & SYSTEM
+
+oracle
+Login by SSH
+
+ssh root@localhost -p 49160
+password: admin
+Connect to ownCloud CI database
+
+username: autotest
+password: owncloud
+
+5
+docker exec -it 775c493412ce /bin/bash
+6
+find -name oracle 可以找到安裝的oracle位置
+
+設置oracle_home(記得路徑是在/bin之前的)
+root@775c493412ce:/# export ORACLE_HOME=./u01/app/oracle/product/11.2.0/xe/bin/oracle
+root@775c493412ce:/# export ORACLE_SID=hellooracle
+root@775c493412ce:/# export PATH=$PATH:$ORACLE_HOME/bin
+
+進入oracle：su – oracle （進入成功的話#會變成$如圖所示）
+
+以操作系統權限認證的oracle sys管理員登陸：sqlplus / as sysdba
+
+
+default machine with IP 192.168.99.100
+
+安裝PL/SQL Develop
+https://www.allroundautomations.com/bodyplsqldevreg.html
+
+
+##########################################################################
+
+
+
+mvn install:install-file -DgroupId=ojdbc -DartifactId=ojdbc6 -Dversion=11.2.0.4 -Dpackaging=jar -Dfile=F:\Java Spring\install JAVA spring boot environment\ojdbc6-11.2.0.3.jar
+mvn install:install-file -DgroupId=com.example.ch8.demo "-DartifactId=ojdbc6" "-Dpackaging=jar" "-Dfile=F:\Java Spring\install JAVA spring boot environment\ojdbc6.jar"
+
+mvn -X install:install-file -DgroupId=ojdbc -DartifactId=ojdbc6 -Dversion=11.2.0.4 -Dpackaging=jar -Dfile=ojdbc6.jar
+C:\Program Files\apache-maven-3.6.1\bin> mvn install:install-file -DgroupId=com.oracle "-DartifactId=ojdbc6" "-Dversion=11.2.0.2.0" "-Dpackaging=jar" "-Dfile=F:\Java Spring\install JAVA spring boot environment\ojdbc6.jar"
+
+
+alter user SYS identified by "a"; --密碼改你想要的
+
+改密碼
+sqlplus /nolog
+connect / as sysdba
+
+方法
+create user c##a identified by b;
+grant connect to c##a;
+grant all privileges to c##a;
+grant dba to c##a;
+grant sysdba to c##a;
+
+##########################################################################
+
+hibernate ddl auto 自動維護資料庫結構功能
+
+create 啟動時刪除上一次的表 數據會被清空
+
+
+spring.jpa.show-sql hibernate在控制台顯示SQL的語句
+
+spring.jackson.serilization.indent_output= true JSON格式
+
+@Entity 資料庫的實體類別
+@Id 資料庫主鍵
+@GeneratedValue hibernate生成HIBERNATE_SEQUENCE的序列
+
+###########################################################################
+ServiceException:
+Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment
+沒有在專案中匯入對應資料庫的JDBC驅動jar包
