@@ -214,3 +214,23 @@ spring.jackson.serilization.indent_output= true JSON格式
 ServiceException:
 Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment
 沒有在專案中匯入對應資料庫的JDBC驅動jar包
+
+###########################################################################
+
+EntityManager 是連接資料庫新增刪除修改的接口
+T example 就是要被查詢的對象
+byAuto 目的就是讓他自動作查詢的動作
+
+Specification則是對整個方法包裝起來的接口
+
+List<Predicate> predicateList predicate 類的查詢結構
+EntityType<T> entity  取得查詢的實體類屬性
+
+自定义Repository的实现
+1 定义Specification
+2 定义Repository接口 CustomRepository
+3 定义接口实现 CustomRepositoryImpl
+4 定义repositoryFactoryBean CustomRepositaryFactoryBean
+5 使用自定义仓库 PersonRepository1
+6 控制器中添加测试方法 DataController1
+7 @EnableJpaRepositories 自定义的Repoisitory生效
