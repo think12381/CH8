@@ -23,15 +23,17 @@ public class CustomRepositoryFactoryBean<T extends JpaRepository<S,ID>,S,ID exte
         return new CustomRepositoryFactory(entityManager);
     }
 
-    private static class CustomRepositoryFactory extends JpaRepositoryFactory{
-        public CustomRepositoryFactory(EntityManager entityManager){
+    private class CustomRepositoryFactory extends JpaRepositoryFactory{
+
+        public CustomRepositoryFactory(EntityManager entityManager) {
             super(entityManager);
         }
+
         @Override
         @SuppressWarnings({"unchecked"})
-        protected <T,ID extends Serializable> SimpleJpaRepository<?,?> getTargetRepository(
-                RepositoryInformation information,EntityManager entityManager){
-            return new CustomRepositoryImpl<T,ID>((Class<T>)information.getDomainType(),entityManager);
+        protected SimpleJpaRepository<T,Serializable> getTargetRepository(
+                RepositoryInformation information, EntityManager entityManager){
+            return (SimpleJpaRepository<T, Serializable>) new CustomRepositoryImpl<T,ID>((Class<T>)information.getDomainType(),entityManager);
         }
 
 
@@ -41,5 +43,4 @@ public class CustomRepositoryFactoryBean<T extends JpaRepository<S,ID>,S,ID exte
         }
 
     }
-
 }
